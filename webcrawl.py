@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from urllib2 import urlopen
 import urllib
 import re
-
+from itertools import takewhile, chain
 
 
 # use this image scraper from the location that 
@@ -37,9 +37,40 @@ def get_images(url):
 #for i in range(498,502):
 #    sp.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
 
-soup = make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(500))
-lstsoup = sp.findAll("a")
+winbegin = 1 
+winend = 50
+soup = []
 
-print soup.find('a', href=re.compile('^http://waterrights.utah.gov/docSys/v907/.*'))['href']
+for i in range(winbegin,winend):
+    try:
+        soup.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
+    except TypeError:        
+        pass
+
+souplist = []
+
+for i in range(len(soup)):
+    try:
+        souplist.append(soup[i].find('a', href=re.compile('^http://waterrights.utah.gov/docSys/v907/.*'))['href'])
+    except TypeError:
+        pass
+soupsite = []
+litho = []
+
+for site in souplist:
+    soupsite.append(make_soup(site))
+    
+souptext = []
+for i in range(len(soupsite)):
+    souptext.append(soupsite[i].get_text())
+
+textbegin = []
+
+for t in souptext:
+    try:
+        textbegin.append(t.index('LITHOLOGY:'))
+    except ValueError:
+        textbegin.append(-9999)
 
 
+print textbegin
