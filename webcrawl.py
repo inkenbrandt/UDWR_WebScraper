@@ -38,6 +38,7 @@ def get_images(url):
 #for i in range(498,502):
 #    sp.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
 
+win = range(1,50)
 winbegin = 1 
 winend = 50
 soup = []
@@ -66,18 +67,28 @@ for i in range(len(soupsite)):
     souptext.append(soupsite[i].get_text())
 
 texty = []
-textbegin = []
-textend = []
+
 for t in souptext:
     texty.append(t[t.find('LITHOLOGY:'):t.find('\r\n\r\n ',t.find('LITHOLOGY:'))])
-
+print texty[0:1]
 rev = []
+rv=[]
 df =[]
-
+#print texty[0:3]
 for text in texty:
-    rev.append(str(re.sub('\r\n             +', ' ',text)))
+    rev.append(str(re.sub('\r\n       +', ' ',text)))
 for i in range(len(rev)):    
-    rev[i] = re.sub('   +','\t',rev[i])
+    rev[i] = re.sub('\r\n','\n',rev[i])
+    rev[i] = re.sub('  +','\t',rev[i])
+    
+for i in range(len(rev)):    
+    rv[i].append(rev[i].split('\n'))
+    for j in rv[i]:
+        if j.count('\t')==3:
+            j.append('','')
+        elif j.count('\t')==4: 
+            j.append('')
+    rev[i] = '\n'.join(rv[i])
 g=[]
 for i in range(len(rev)):
     g.append('w'+ str(i))    
