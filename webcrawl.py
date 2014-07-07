@@ -9,6 +9,7 @@ from urllib2 import urlopen
 import urllib
 import re
 from itertools import takewhile, chain
+import pandas as pd
 
 
 # use this image scraper from the location that 
@@ -64,13 +65,27 @@ souptext = []
 for i in range(len(soupsite)):
     souptext.append(soupsite[i].get_text())
 
+texty = []
 textbegin = []
-
+textend = []
 for t in souptext:
-    try:
-        textbegin.append(t.index('LITHOLOGY:'))
-    except ValueError:
-        textbegin.append(-9999)
+    texty.append(t[t.find('LITHOLOGY:'):t.find('\r\n\r\n ',t.find('LITHOLOGY:'))])
+
+rev = []
+df =[]
+
+for text in texty:
+    rev.append(str(re.sub('\r\n             +', ' ',text)))
+for i in range(len(rev)):    
+    rev[i] = re.sub('   +','\t',rev[i])
+g=[]
+for i in range(len(rev)):
+    g.append('w'+ str(i))    
+    b = open(g[i], 'w')
+    b.write(rev[i])
 
 
-print textbegin
+for i in range(len(rev)):
+    df.append(pd.read_table(g[i], sep='\t', skiprows=3))
+
+print df[0]
