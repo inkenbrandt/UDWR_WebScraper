@@ -1,27 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	65	CLAY	None	None
-65	72	SAND	None	None
-72	91	CLAY	None	None
-91	95	SAND	None	None
-95	103	CLAY	None	None
-103	109	SAND,GRAVEL	None	None
-109	136	CLAY	None	None
-136	141	SAND	None	None
-141	161	CLAY	None	None
-161	170	SAND,GRAVEL	None	None
-170	207	CLAY	None	None
-207	211	SAND	None	None
-211	226	CLAY	None	None
-226	229	SAND	None	None
-229	287	CLAY	None	None
-287	294	SAND	None	None
-294	339	CLAY	None	None
-339	345	SAND	None	None
-345	375	CLAY	None	None
-375	390	SAND,GRAVEL	None	None
-390	475	CLAY	None	None
-475	479	OTHER	CEMENTED SAND	None
-479	524	CLAY	None	None
-524	535	WATER-BEARING,SAND,GRAVEL	None	None

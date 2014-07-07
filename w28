@@ -1,8 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	60	SILT,SAND	RED	None
-60	80	CLAY	None	None
-80	100	WATER-BEARING,SAND	WHITE	None
-100	120	SAND	RED	None
-120	145	WATER-BEARING	CONGLOMERATE	None

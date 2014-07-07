@@ -1,8 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	1	SALT	None	None
-1	17	CLAY,SILT	GREY	None
-17	21	SAND	GREY	None
-21	46	CLAY,SILT,SAND	None	None
-46	60	CLAY,SAND,GRAVEL GRAVELS SMALL	None	None

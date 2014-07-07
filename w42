@@ -1,12 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	63	CLAY	None	None
-63	71	SAND	None	None
-71	91	CLAY	None	None
-91	95	SAND	None	None
-95	103	SAND,GRAVEL	None	None
-103	130	CLAY	None	None
-130	135	SAND	None	None
-135	164	CLAY	None	None
-164	173	WATER-BEARING,SAND,GRAVEL	None	None

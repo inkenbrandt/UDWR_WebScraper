@@ -1,11 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	20	CLAY,GRAVEL	None	None
-20	60	CLAY	None	None
-60	70	BEDROCK VOLCANIC INTRUSIVE	None	None
-70	80	BEDROCK	None	None
-80	180	CLAY	None	None
-180	190	WATER-BEARING,SAND,OTHER	BEDROCK	None
-190	200	CLAY	None	None
-200	205	WATER-BEARING,SAND,OTHER	BEDROCK	None

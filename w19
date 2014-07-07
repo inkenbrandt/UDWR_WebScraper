@@ -1,7 +1,0 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	None
-From	To	None	None	None
-0	5	SAND,OTHER	RED OVERBURDEN	None
-5	40	CLAY,SAND,OTHER	RED	SANDSTONE
-40	60	GRAVEL	RED	CONGLOMERATE
-60	110	GRAVEL RIVER GRAVEL	None	None

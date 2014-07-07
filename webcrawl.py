@@ -8,9 +8,9 @@ from bs4 import BeautifulSoup
 from urllib2 import urlopen
 import urllib
 import re
-from itertools import takewhile, chain
 import pandas as pd
-
+import csv
+import glob
 
 # use this image scraper from the location that 
 #you want to save scraped images to
@@ -38,22 +38,26 @@ def get_images(url):
 #for i in range(498,502):
 #    sp.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
 
-win = range(1,50)
+
 winbegin = 1 
-winend = 50
+winend = 10000
 soup = []
+winrev = []
 
 for i in range(winbegin,winend):
     try:
         soup.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
+        winrev.append(str(i))
     except TypeError:        
         pass
 
 souplist = []
+winrev2 = []
 
 for i in range(len(soup)):
     try:
         souplist.append(soup[i].find('a', href=re.compile('^http://waterrights.utah.gov/docSys/v907/.*'))['href'])
+        winrev2.append(winrev[i])
     except TypeError:
         pass
 soupsite = []
@@ -70,43 +74,71 @@ texty = []
 
 for t in souptext:
     texty.append(t[t.find('LITHOLOGY:'):t.find('\r\n\r\n ',t.find('LITHOLOGY:'))])
-print texty[0:1]
+
+
 rev = []
 rv=[]
-df =[]
+winrev3 = []
+
 #print texty[0:3]
-for text in texty:
-    rev.append(str(re.sub('\r\n       +', ' ',text)))
-for i in range(len(rev)):    
-    #rev[i] = re.sub('\r\n','\n',rev[i])
-    rev[i] = re.sub('  +','\t',rev[i])
-    rev[i] = re.sub('\n\t','\n',rev[i])
-    
+for i in range(len(texty)):
+    if len(texty[i]) > 10:    
+        rev.append(str(re.sub('\r\n       +', ' ',texty[i])))
+        winrev3.append(winrev2[i])
+    else:
+        pass
+
+
+
+for i in range(len(rev)):
+    rev[i] = re.sub('\r\n','\n',rev[i])
+    rev[i] = re.sub(',',';',rev[i])
+    rev[i] = re.sub('  +',',',rev[i])
+    rev[i] = re.sub('\n,','\n',rev[i])
+
+     
 for i in range(len(rev)):    
     rv.append(rev[i].split('\n'))
     for j in range(len(rv[i])):    
-        if rv[i][j].count('\t')==2:
-            rv[i][j] = rv[i][j]+'\t \t ' 
-        elif rv[i][j].count('\t')==3: 
-            rv[i][j]=rv[i][j] +  '\t '
-        elif rv[i][j].count('\t')==1: 
-            rv[i][j]=rv[i][j] +  '\t \t \t '
-        elif rv[i][j].count('\t')==4: 
-            rv[i][j]=rv[i][j]    
-        elif rv[i][j].count('\t')==0:
-            rv[i][j]=rv[i][j] +  '\t \t \t \t '
+        if rv[i][j].count(',')==2:
+            rv[i][j] = winrev2[i] + ',' + rv[i][j] + ', , ' 
+        elif rv[i][j].count(',')==3: 
+            rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', '
+        elif rv[i][j].count(',')==1: 
+            rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', , , '
+        elif rv[i][j].count(',')==4: 
+            rv[i][j]= winrev2[i] + ',' + rv[i][j]    
+        elif rv[i][j].count(',')==0:
+            rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', , , , '
     rev[i] = '\n'.join(rv[i])
 
 
+
+path = 'C:/Users/PAULINKENBRANDT/Documents/GitHub/UDWR_WebScraper/'
+
 g=[]
+
 for i in range(len(rev)):
-    g.append('w'+ str(i))    
+    g.append(path + 'w'+ str(i) + '.csv')    
     b = open(g[i], 'w')
     b.write(rev[i])
 
-df = pd.read_table(g[0], error_bad_lines=False)
+#df = pd.read_table(g[0], error_bad_lines=False, )
 
-#for i in range(len(rev)):
-#    df.append(pd.read_table(g[i], sep='\t', skiprows=3))
 
-print df
+df = []
+
+for i in range(len(g)):
+    try:
+        df.append(pd.io.parsers.read_table(g[i], index_col=None, sep=',', names=['win','from','to','lith','color','other'], skiprows=3, error_bad_lines=False))     
+    except pd.parser.CParserError:
+        pass
+    else:
+        pass
+
+
+
+frame = df[0].append(df[1:])
+
+
+frame.to_csv(path+'output.csv')
