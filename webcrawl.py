@@ -80,15 +80,17 @@ for text in texty:
 for i in range(len(rev)):    
     rev[i] = re.sub('\r\n','\n',rev[i])
     rev[i] = re.sub('  +','\t',rev[i])
+    rev[i] = re.sub('\n\t','\n',rev[i])
     
 for i in range(len(rev)):    
-    rv[i].append(rev[i].split('\n'))
-    for j in rv[i]:
-        if j.count('\t')==3:
-            j.append('','')
-        elif j.count('\t')==4: 
-            j.append('')
+    rv.append(rev[i].split('\n'))
+    for j in rv[i]:    
+        if rv[i][j].count('\t')==3:
+            rv[i][j].extend(('\t ','\t '))
+        elif rv[i][j].count('\t')==4: 
+            rv[i][j].append('\t ')
     rev[i] = '\n'.join(rv[i])
+print rev[1]
 g=[]
 for i in range(len(rev)):
     g.append('w'+ str(i))    
