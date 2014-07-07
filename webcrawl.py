@@ -84,7 +84,7 @@ for i in range(len(rev)):
     
 for i in range(len(rev)):    
     rv.append(rev[i].split('\n'))
-    for j in rv[i]:    
+    for j in range(len(rv[i])):    
         if rv[i][j].count('\t')==3:
             rv[i][j].extend(('\t ','\t '))
         elif rv[i][j].count('\t')==4: 
