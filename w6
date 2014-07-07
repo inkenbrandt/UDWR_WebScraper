@@ -1,0 +1,11 @@
+LITHOLOGY:
+Depth(ft)	Lithologic Description	Color	Rock Type	 	 
+From	To
+0	2	OTHER
+2	50	CLAY
+50	61	SAND
+61	85	CLAY
+85	103	SAND
+103	106	CLAY
+106	115	SAND
+115	117	GRAVEL

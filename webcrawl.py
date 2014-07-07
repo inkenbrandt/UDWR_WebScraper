@@ -86,9 +86,9 @@ for i in range(len(rev)):
     rv.append(rev[i].split('\n'))
     for j in range(len(rv[i])):    
         if rv[i][j].count('\t')==3:
-            rv[i][j].extend(('\t ','\t '))
+            rv[i][j] = rv[i][j]+'\t \t '
         elif rv[i][j].count('\t')==4: 
-            rv[i][j].append('\t ')
+            rv[i][j]=rv[i][j] +  '\t '
     rev[i] = '\n'.join(rv[i])
 print rev[1]
 g=[]

@@ -1,0 +1,9 @@
+LITHOLOGY:
+Depth(ft)	Lithologic Description	Color	Rock Type	 	 
+From	To
+0	10	CLAY
+10	118	SAND
+118	152	CLAY
+152	173	SAND,GRAVEL
+173	210	CLAY
+210	220	WATER-BEARING,SAND
