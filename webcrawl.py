@@ -78,27 +78,35 @@ df =[]
 for text in texty:
     rev.append(str(re.sub('\r\n       +', ' ',text)))
 for i in range(len(rev)):    
-    rev[i] = re.sub('\r\n','\n',rev[i])
+    #rev[i] = re.sub('\r\n','\n',rev[i])
     rev[i] = re.sub('  +','\t',rev[i])
     rev[i] = re.sub('\n\t','\n',rev[i])
     
 for i in range(len(rev)):    
     rv.append(rev[i].split('\n'))
     for j in range(len(rv[i])):    
-        if rv[i][j].count('\t')==3:
-            rv[i][j] = rv[i][j]+'\t \t '
-        elif rv[i][j].count('\t')==4: 
+        if rv[i][j].count('\t')==2:
+            rv[i][j] = rv[i][j]+'\t \t ' 
+        elif rv[i][j].count('\t')==3: 
             rv[i][j]=rv[i][j] +  '\t '
+        elif rv[i][j].count('\t')==1: 
+            rv[i][j]=rv[i][j] +  '\t \t \t '
+        elif rv[i][j].count('\t')==4: 
+            rv[i][j]=rv[i][j]    
+        elif rv[i][j].count('\t')==0:
+            rv[i][j]=rv[i][j] +  '\t \t \t \t '
     rev[i] = '\n'.join(rv[i])
-print rev[1]
+
+
 g=[]
 for i in range(len(rev)):
     g.append('w'+ str(i))    
     b = open(g[i], 'w')
     b.write(rev[i])
 
+df = pd.read_table(g[0], error_bad_lines=False)
 
-for i in range(len(rev)):
-    df.append(pd.read_table(g[i], sep='\t', skiprows=3))
+#for i in range(len(rev)):
+#    df.append(pd.read_table(g[i], sep='\t', skiprows=3))
 
-print df[0]
+print df

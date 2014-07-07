@@ -1,8 +1,8 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	 	 
-From	To
-0	5	SILT,SAND FILL LIGHT SILT
-5	10	CLAY,SILT	LIGHT GREY	 	 
-10	20	CLAY,SILT	GREY	 	 
-20	30	CLAY,SILT,SAND	LIGHT GREY	 	 
-30	50	CLAY	LIGHT GREEN	 	 
+LITHOLOGY:
+Depth(ft)	Lithologic Description	Color	Rock Type	None
+From	To	None	None	None
+0	5	SILT,SAND FILL LIGHT SILT	None	None
+5	10	CLAY,SILT	LIGHT GREY	None
+10	20	CLAY,SILT	GREY	None
+20	30	CLAY,SILT,SAND	LIGHT GREY	None
+30	50	CLAY	LIGHT GREEN	None

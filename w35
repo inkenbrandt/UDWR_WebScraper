@@ -1,7 +1,7 @@
-LITHOLOGY:
-Depth(ft)	Lithologic Description	Color	Rock Type	 	 
-From	To
-0	2	OTHER TOP SOIL
-2	58	CLAY,SILT,SAND
-58	92	WATER-BEARING,SAND,GRAVEL
-92	103	WATER-BEARING,GRAVEL
+LITHOLOGY:
+Depth(ft)	Lithologic Description	Color	Rock Type	None
+From	To	None	None	None
+0	2	OTHER TOP SOIL	None	None
+2	58	CLAY,SILT,SAND	None	None
+58	92	WATER-BEARING,SAND,GRAVEL	None	None
+92	103	WATER-BEARING,GRAVEL	None	None
