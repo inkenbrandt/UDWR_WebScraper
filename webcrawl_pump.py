@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Mon Jul 07 12:39:38 2014
+
+@author: paulinkenbrandt
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Apr 21 12:11:04 2014
 
 @author: Paul
@@ -10,15 +17,14 @@ import urllib
 import re
 import pandas as pd
 import lxml
-from lxml import etree
-from lxml import *
+from lxml.html import *
 # use this image scraper from the location that 
 #you want to save scraped images to
 
 def make_soup(url):
     # opens webpage for use in BeautifulSoup    
     html = urlopen(url).read()
-    return BeautifulSoup(html, "lxml")
+    return BeautifulSoup(html)
 
 def get_images(url):
     soup = make_soup(url)
@@ -32,6 +38,12 @@ def get_images(url):
         filename=each.split('/')[-1]
         urllib.urlretrieve(each, filename)
     return image_links
+    
+def findnth(haystack, needle, n):
+    parts= haystack.split(needle, n+1)
+    if len(parts)<=n+1:
+        return -1
+    return len(haystack)-len(parts[-1])-len(needle)
 
 #a standard call looks like this
 #get_images('http://cpgeosystems.com/nam.html')
@@ -40,11 +52,11 @@ def get_images(url):
 #    sp.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
 
 # Water Rights win number to begin search
-winbegin = 1
+winbegin = 20001
 
-while winbegin < 502:
+while winbegin < 40250:
 
-    winend = winbegin + 500
+    winend = winbegin + 250
     soup = []
     winrev = []
     
@@ -85,13 +97,15 @@ while winbegin < 502:
         try:
             souptext.append(soupsite[i].get_text())
             winrevb.append(winreva[i])
-        except HTMLParser.HTMLParseError:
+        except Warning:
             pass
     texty = []
     
     for t in souptext:
-        texty.append(t[t.find('LITHOLOGY:'):t.find('\r\n\r\n ',t.find('LITHOLOGY:'))])
+        texty.append(t[t.find('Time Pumped (hrs)\r\n\r\n'):t.find('\r\n\r\n' ,t.find('Time Pumped (hrs)\r\n\r\n')+25)])
     
+    
+    print texty[1:10]
     
     rev = []
     rv=[]
@@ -100,7 +114,7 @@ while winbegin < 502:
     #print texty[0:3]
     for i in range(len(texty)):
         if len(texty[i]) > 10:    
-            rev.append(str(re.sub('\r\n       +', ' ',texty[i])))
+            rev.append(str(re.sub('\r\n       +', '\n',texty[i])))
             winrev3.append(winrevb[i])
         else:
             pass  
@@ -131,7 +145,7 @@ while winbegin < 502:
     g=[]
     
     for i in range(len(rev)):
-        g.append(path + 'w' + str(winrev3[i]).zfill(5) + '.csv')    
+        g.append(path + 'pump' + str(winrev3[i]).zfill(5) + '.csv')    
         b = open(g[i], 'w')
         b.write(rev[i])
     
@@ -140,14 +154,15 @@ while winbegin < 502:
     
     for i in range(len(g)):
         try:
-            df.append(pd.io.parsers.read_table(g[i], index_col=None, sep=',', names=['win','from','to','lith','color','other'], skiprows=3, error_bad_lines=False))
+            df.append(pd.io.parsers.read_table(g[i], index_col=None, sep=',', names=['win','date','method','yeild(cfs)','drawdown(ft)','time(hr)'], skiprows=2, error_bad_lines=False))     
         except pd.parser.CParserError:
             pass
-
+        else:
+            pass
         
     
-    frame = df[0].append(df)
+    frame = df[0].append(df[1:])
         
-    frame.to_csv(path+'output'+str(winbegin)+'.csv')
+    frame.to_csv(path + 'pumpoutput' + str(winbegin).zfill(5) + '.csv')
 
     winbegin = winend
