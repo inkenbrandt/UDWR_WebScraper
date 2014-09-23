@@ -40,11 +40,12 @@ def get_images(url):
 #    sp.append(make_soup('http://waterrights.utah.gov/cgi-bin/docview.exe?Folder=welllog'+str(i)))
 
 # Water Rights win number to begin search
-winbegin = 1
+winbegin = 9001
+space = 1000
 
-while winbegin < 502:
+while winbegin < space + 1:
 
-    winend = winbegin + 500
+    winend = winbegin + space
     soup = []
     winrev = []
     
@@ -92,7 +93,6 @@ while winbegin < 502:
     for t in souptext:
         texty.append(t[t.find('LITHOLOGY:'):t.find('\r\n\r\n ',t.find('LITHOLOGY:'))])
     
-    
     rev = []
     rv=[]
     winrev3 = []
@@ -115,15 +115,15 @@ while winbegin < 502:
         rv.append(rev[i].split('\n'))
         for j in range(len(rv[i])):    
             if rv[i][j].count(',')==2:
-                rv[i][j] = winrev2[i] + ',' + rv[i][j] + ', , ' 
+                rv[i][j] = winrev3[i] + ',' + rv[i][j] + ', , ' 
             elif rv[i][j].count(',')==3: 
-                rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', '
+                rv[i][j]= winrev3[i] + ',' + rv[i][j] +  ', '
             elif rv[i][j].count(',')==1: 
-                rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', , , '
+                rv[i][j]= winrev3[i] + ',' + rv[i][j] +  ', , , '
             elif rv[i][j].count(',')==4: 
-                rv[i][j]= winrev2[i] + ',' + rv[i][j]    
+                rv[i][j]= winrev3[i] + ',' + rv[i][j]    
             elif rv[i][j].count(',')==0:
-                rv[i][j]= winrev2[i] + ',' + rv[i][j] +  ', , , , '
+                rv[i][j]= winrev3[i] + ',' + rv[i][j] +  ', , , , '
         rev[i] = '\n'.join(rv[i])
     
     path = 'C:\\PROJECTS\\WR_DATA\\'
